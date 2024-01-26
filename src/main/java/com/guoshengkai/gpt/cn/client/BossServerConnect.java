@@ -5,9 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.guoshengkai.gpt.cn.client.action.ControllerMethodMapper;
 import com.guoshengkai.gpt.cn.client.action.SocketController;
 import com.guoshengkai.gpt.cn.client.action.SocketMapping;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
+import io.netty.util.concurrent.ScheduledFuture;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +25,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @ChannelHandler.Sharable
@@ -102,6 +108,12 @@ public class BossServerConnect extends SimpleChannelInboundHandler<String> {
         }
     }
 
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        ping(ctx.channel());
+    }
+
     /**
      * 数据读取完毕
      */
@@ -118,4 +130,31 @@ public class BossServerConnect extends SimpleChannelInboundHandler<String> {
         cause.printStackTrace();
         ctx.close();
     }
+
+    private Random random = new Random();
+    private int baseRandom = 8;
+
+    private void ping(Channel channel) {
+        ScheduledFuture<?> future = channel.eventLoop().schedule(new Runnable() {
+            @Override
+            public void run() {
+                if (channel.isActive()) {
+                    channel.writeAndFlush(ClientIdleStateTrigger.HEART_BEAT);
+                } else {
+                    channel.closeFuture();
+                    throw new RuntimeException();
+                }
+            }
+        }, 4, TimeUnit.SECONDS);
+
+        future.addListener(new GenericFutureListener() {
+            @Override
+            public void operationComplete(Future future) throws Exception {
+                if (future.isSuccess()) {
+                    ping(channel);
+                }
+            }
+        });
+    }
+
 }

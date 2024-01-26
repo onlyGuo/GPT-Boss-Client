@@ -27,7 +27,9 @@ import java.util.Map;
 @Component
 public class BossSocketClient {
 
-    private static final ThreadGroup group = new ThreadGroup("FVite-Socket");
+    private static final ThreadGroup group = new ThreadGroup("GPT-Boss-Socket");
+
+    private static final ThreadGroup activeGroup = new ThreadGroup("GPT-Boss-Socket-Active");
     private NioEventLoopGroup eventExecutors;
     private ChannelFuture channelFuture;
 
@@ -65,7 +67,7 @@ public class BossSocketClient {
                                 protected void initChannel(SocketChannel ch) throws Exception {
                                     //添加客户端通道的处理器
                                     ch.pipeline()
-                                            .addLast(new LengthFieldBasedFrameDecoder(88888888,
+                                            .addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,
                                                     0, 8, 0, 8))
                                             .addLast(new LengthFieldPrepender(8))
                                             .addLast(new StringDecoder())

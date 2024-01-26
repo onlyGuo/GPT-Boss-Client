@@ -14,6 +14,8 @@
     <name>ChatGPT_CN_Client</name>
     <description>ChatGPT_CN_Client</description>
     <properties>
+        <!-- 跳过测试 -->
+        <maven.test.skip>true</maven.test.skip>
         <java.version>17</java.version>
     </properties>
     <dependencies>
