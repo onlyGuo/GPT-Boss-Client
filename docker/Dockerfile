@@ -5,4 +5,3 @@ WORKDIR /home/apps
 EXPOSE 8080
 # 启动nginx和java
 ENTRYPOINT ["sh", "entrypoint.sh"]
-#ENTRYPOINT ["java", "-jar", "chatgpt-0.0.1-SNAPSHOT.jar"]
