@@ -155,7 +155,7 @@ public class ChatController {
 
         try (PrintWriter writer = response.getWriter()){
             if (!Global.fun.isEnableGuest() && ThreadUtil.getUserEntity() == null){
-                writeMessage(writer, index, "该网站已关闭游客访问，请<a href=\"javascript:login();\">登陆</a>后继续");
+                writeMessage(writer, index, "该网站已关闭游客访问，请<a href=\"javascript:login();\">登录</a>后继续");
                 return;
             }
 
@@ -169,6 +169,10 @@ public class ChatController {
                 }else{
                     if (message.contains("余额不足，请充值")){
                         String msg = "该模型为付费模型，您的余额不足，请前往<a href=\"javascript:goto('/user/purse');\">我的钱包</a>进行充值";
+                        replyMessageBuilder.append(msg);
+                        writeMessage(writer, index, msg);
+                    }else if (message.contains("该模型为付费模型，请登录后再使用")){
+                        String msg = "该模型为付费模型，请<a href=\"javascript:login();\">登录</a>后再使用";
                         replyMessageBuilder.append(msg);
                         writeMessage(writer, index, msg);
                     }else{
