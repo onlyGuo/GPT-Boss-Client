@@ -167,7 +167,7 @@ public class ChatController {
                     replyMessageBuilder.append(msg);
                     writeMessage(writer, index, msg);
                 }else{
-                    if (message.contains("余额不足，请充值")){
+                    if (message.contains("余额不足，请充值") || message.contains("余额不足，请前往充值")){
                         String msg = "该模型为付费模型，您的余额不足，请前往<a href=\"javascript:goto('/user/purse');\">我的钱包</a>进行充值";
                         replyMessageBuilder.append(msg);
                         writeMessage(writer, index, msg);
