@@ -13,7 +13,7 @@ GPT-Boss-Client是基于GPT-Boss平台的一个开源镜像站。GPTBoss平台�
 ## 部署GPT镜像
 我们提供了多种部署方式，您可以根据您的需求选择不同的部署方式。同时，我们的镜像站是开源的，您可以根据您的需求自行修改。
 
-源码地址：[https://github.com/onlyGuo/chatgpt-private-client](https://github.com/onlyGuo/chatgpt-private-client)
+源码地址：[https://github.com/onlyGuo/GPT-Boss-Client.git](https://github.com/onlyGuo/GPT-Boss-Client.git)
 
 - 基于Docker部署
 
