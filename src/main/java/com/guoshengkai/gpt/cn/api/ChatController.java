@@ -107,10 +107,10 @@ public class ChatController {
     public List<ChatMessage> listChatMessageByChatId(int chatId) {
         UserChat chat = userChatDao.get(chatId);
         if (null == chat){
-            throw new ValidationException("会话不存在");
+            return List.of();
         }
         if (chat.getUserId() != ThreadUtil.getUserId()){
-            throw new ValidationException("非法操作");
+            return List.of();
         }
         List<ChatMessage> list = chatMessageDao.list(Method.where(ChatMessage::getChatId, C.EQ, chatId)
                 .orderBy(Sort.of(ChatMessage::getId, OrderBy.DESC)).limit(0, 50));
@@ -158,7 +158,7 @@ public class ChatController {
                 writeMessage(writer, index, "该网站已关闭游客访问，请<a href=\"javascript:login();\">登录</a>后继续");
                 return;
             }
-
+            writeMessage(writer, index, "$LOADING$");
             // 调用GPT
             StringBuilder replyMessageBuilder = new StringBuilder();
             ServerUtil.postStream("api/v1/gpt/chat", chatMessage, (code, message) -> {
