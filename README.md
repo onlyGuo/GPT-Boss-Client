@@ -4,6 +4,13 @@ GPT-Boss-Client是基于GPT-Boss平台的一个开源镜像站。GPTBoss平台�
 
 您只需要注册一个管理员账号(站长账号)，即可通过GPT-Boss平台搭建你的GPT镜像，无需编写任何代码。
 
+<div style="text-align: center;">
+<img src="./doc/images/example.png" />
+<div>演示地址：https://chat.icoding.ink</div>
+</div>
+
+
+
 ## 注册站长账号
 首先，您需要注册一个站长账号，这个账号将作为您的管理员账号，您可以通过这个账号来管理您的GPT镜像。 登录[注册页面](https://boss.icoding.ink/manager/#/register)，填写您的邮箱、用户名、密码，点击注册即可。
 
