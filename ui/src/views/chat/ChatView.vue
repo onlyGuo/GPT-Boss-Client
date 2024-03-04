@@ -127,8 +127,9 @@ const sendMessage = (a) => {
       time = headers.get('message.time')
     }
     if(text){
+      console.log(text)
       chatBox.value.onMessage({
-        content: text,
+        content: text === '$LOADING$' ? '' : text,
         role: 'assistant',
         userId: undefined,
         index: index,

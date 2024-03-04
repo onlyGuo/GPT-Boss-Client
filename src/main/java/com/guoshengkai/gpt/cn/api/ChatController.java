@@ -119,10 +119,10 @@ public class ChatController {
     public List<ChatMessage> listChatMessageByChatId(int chatId) {
         UserChat chat = userChatDao.get(chatId);
         if (null == chat){
-            throw new ValidationException("会话不存在");
+            return List.of();
         }
         if (chat.getUserId() != ThreadUtil.getUserId()){
-            throw new ValidationException("非法操作");
+            return List.of();
         }
         List<ChatMessage> list = chatMessageDao.list(Method.where(ChatMessage::getChatId, C.EQ, chatId)
                 .orderBy(Sort.of(ChatMessage::getId, OrderBy.DESC)).limit(0, 50));
@@ -170,7 +170,7 @@ public class ChatController {
                 writeMessage(writer, index, "该网站已关闭游客访问，请<a href=\"javascript:login();\">登录</a>后继续");
                 return;
             }
-
+            writeMessage(writer, index, "$LOADING$");
             // 调用GPT
             StringBuilder replyMessageBuilder = new StringBuilder();
             ServerUtil.postStream("api/v1/gpt/chat", chatMessage, (code, message) -> {
@@ -179,7 +179,7 @@ public class ChatController {
                     replyMessageBuilder.append(msg);
                     writeMessage(writer, index, msg);
                 }else{
-                    if (message.contains("余额不足，请充值")){
+                    if (message.contains("余额不足，请充值") || message.contains("余额不足，请前往充值")){
                         String msg = "该模型为付费模型，您的余额不足，请前往<a href=\"javascript:goto('/user/purse');\">我的钱包</a>进行充值";
                         replyMessageBuilder.append(msg);
                         writeMessage(writer, index, msg);
