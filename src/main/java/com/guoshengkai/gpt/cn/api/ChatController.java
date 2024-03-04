@@ -91,6 +91,18 @@ public class ChatController {
         return chat;
     }
 
+    @DeleteMapping("{chatId}")
+    public void deleteChat(@PathVariable int chatId){
+        UserChat chat = userChatDao.get(chatId);
+        if (null == chat){
+            throw new ValidationException("会话不存在");
+        }
+        if (chat.getUserId() != ThreadUtil.getUserId()){
+            throw new ValidationException("非法操作");
+        }
+        userChatDao.del(chatId);
+    }
+
     @PutMapping
     public void saveChat(@RequestBody UserChat chat){
         UserChat chat1 = userChatDao.get(chat.getId());
