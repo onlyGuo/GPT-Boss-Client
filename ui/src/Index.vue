@@ -114,7 +114,7 @@ const gotoDownload = () => {
                  <img src="./assets/logo.svg" v-else />
                  <div class="title-info">
                    <div class="title-text">{{globel.site && globel.site.name ? globel.site.name : ''}}</div>
-                   <div class="ipc-num">{{globel.site && globel.site.icp ? globel.site.icp : ''}}</div>
+                   <a class="ipc-num" href="https://beian.miit.gov.cn" target="_blank">{{globel.site && globel.site.icp ? globel.site.icp : ''}}</a>
                  </div>
                </div>
               <div class="right">
@@ -219,6 +219,7 @@ const gotoDownload = () => {
               font-weight: 400;
               color: #666666;
               line-height: 12px;
+              display: block;
             }
          }
        }
